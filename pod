@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Pod Configuration</title>
+  <style>
+    body {
+      background-color: #fff; /* Set default background color */
+      color: purple; /* Adjusted text color to purple */
+      font-family: 'Anime Ace', sans-serif; /* Applying Anime Ace font */
+      text-align: center; /* Center align text */
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #800080; /* Purple color for buttons */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #planet-info {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: rgba(255, 0, 0, 0.5); /* Transparent red for planet info box */
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Stroke effect for planet info box */
+    }
+    h1 {
+      text-shadow: 2px 2px 5px #000; /* Stroke effect for title text */
+    }
+    h2 {
+      text-shadow: 1px 1px 3px #000; /* Stroke effect for section title text */
+    }
+  </style>
+</head>
+<body>
+  <h1>Space Pod Configuration</h1>
+  <button onclick="generateX()">Generate X Coordinate</button>
+  <button onclick="generateY()">Generate Y Coordinate</button>
+  <button onclick="generateZ()">Generate Z Coordinate</button>
+  <button onclick="findClosestPlanet()">Find Closest Planet</button>
+  
+  <div id="planet-info" style="display: none;">
+    <h2>Closest Planet:</h2>
+    <p id="planet-name">Unknown</p>
+  </div>
+
+  <script>
+    // Array of planet coordinates
+    const planets = [
+      { name: "Planet Vegeta", x: 421, y: 123, z: 345 },
+      { name: "Planet Frieza 448", x: -800, y: 250, z: 670 },
+      { name: "Planet Meat", x: 612, y: -465, z: 120 },
+      { name: "Planet Frieza 17", x: 260, y: -75, z: 120 },
+      { name: "Planet Unidentified", x: -1100, y: -820, z: -150 }
+    ];
+
+    let spacePodX = null;
+    let spacePodY = null;
+    let spacePodZ = null;
+
+    // Function to generate a random coordinate between -1000 and 1000
+    function generateRandomCoordinate() {
+      return Math.floor(Math.random() * 2001) - 1000;
+    }
+
+    // Function to calculate the distance between two points in 3D space
+    function calculateDistance(x1, y1, z1, x2, y2, z2) {
+      return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2) + Math.pow((z2 - z1), 2));
+    }
+
+    // Function to generate X coordinate
+    function generateX() {
+      spacePodX = generateRandomCoordinate();
+      alert(`X Coordinate: ${spacePodX}`);
+    }
+
+    // Function to generate Y coordinate
+    function generateY() {
+      spacePodY = generateRandomCoordinate();
+      alert(`Y Coordinate: ${spacePodY}`);
+    }
+
+    // Function to generate Z coordinate
+    function generateZ() {
+      spacePodZ = generateRandomCoordinate();
+      alert(`Z Coordinate: ${spacePodZ}`);
+    }
+
+    // Function to find the closest planet to the space pod
+    function findClosestPlanet() {
+      if (spacePodX === null || spacePodY === null || spacePodZ === null) {
+        alert("Please generate X, Y, and Z coordinates first.");
+        return;
+      }
+
+      let closestPlanet = planets[0];
+      let closestDistance = calculateDistance(spacePodX, spacePodY, spacePodZ, closestPlanet.x, closestPlanet.y, closestPlanet.z);
+
+      for (let i = 1; i < planets.length; i++) {
+        const distance = calculateDistance(spacePodX, spacePodY, spacePodZ, planets[i].x, planets[i].y, planets[i].z);
+        if (distance < closestDistance) {
+          closestPlanet = planets[i];
+          closestDistance = distance;
+        }
+      }
+
+      // Display the closest planet information
+      document.getElementById("planet-name").innerText = closestPlanet.name;
+      document.getElementById("planet-info").style.display = "block";
+    }
+  </script>
+</body>
+</html>
